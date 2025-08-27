@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: postgres   # your postgres user
+  password: admin123  # your postgres password
+  host: localhost
+
+development:
+  <<: *default
+  database: recipe_org_app_development
+
+test:
+  <<: *default
+  database: recipe_org_test
+
+production:
+  <<: *default
+  database: recipe_org_app_production

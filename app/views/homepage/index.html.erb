@@ -1,0 +1,120 @@
+<div class="container mx-auto px-4">
+  <% if @featured_recipe.present? %>
+    <div class="grid md:grid-cols-2 gap-0 shadow-lg rounded-xl overflow-hidden mb-20">
+      <!-- Recipe Image -->
+      <div class="md:col-span-1">
+        <% if @featured_recipe.image_url.present? %>
+          <%= image_tag @featured_recipe.image_url,
+              alt: @featured_recipe.title,
+              class: "object-cover w-full h-64 md:h-96",
+              onerror: "this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='" %>
+        <% else %>
+          <div class="w-full h-64 md:h-96 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+            <div class="text-center text-white">
+              <%= heroicon :sparkles, class: "w-16 h-16 mx-auto mb-4" %>
+              <h3 class="text-2xl font-bold">Featured Recipe</h3>
+              <p class="text-lg opacity-90">Delicious & Fresh</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Recipe Content -->
+      <div class="md:col-span-1 bg-[#450a0a] p-6 md:p-10 text-white flex flex-col justify-between">
+        <div>
+          <!-- Category Badge -->
+          <% if @featured_recipe.category.present? %>
+            <span class="inline-block bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium mb-3">
+              <%= @featured_recipe.category.titleize %>
+            </span>
+          <% end %>
+
+          <!-- Title -->
+          <h2 class="text-2xl md:text-3xl font-bold mb-3 md:mb-4"><%= @featured_recipe.title.titleize %></h2>
+          
+          <!-- Description -->
+          <p class="mb-4 md:mb-6 leading-relaxed text-sm md:text-base">
+            <%= truncate(@featured_recipe.description.capitalize, length: 150) %>
+          </p>
+
+          <!-- Recipe Meta -->
+          <div class="flex items-center gap-3 md:gap-6 mb-4 md:mb-6 text-xs md:text-sm">
+            <% if @featured_recipe.cooking_time.present? %>
+              <div class="flex items-center">
+                <%= heroicon :clock, class: "w-3 h-3 md:w-4 md:h-4 mr-1" %>
+                <span><%= @featured_recipe.cooking_time %> mins</span>
+              </div>
+            <% end %>
+
+            <% if @featured_recipe.servings.present? %>
+              <div class="flex items-center">
+                <%= heroicon :users, class: "w-3 h-3 md:w-4 md:h-4 mr-1" %>
+                <span><%= @featured_recipe.servings.to_i %> servings</span>
+              </div>
+            <% end %>
+
+            <% if @featured_recipe.ingredients.present? %>
+              <div class="flex items-center">
+                <%= heroicon :"shopping-bag", class: "w-3 h-3 md:w-4 md:h-4 mr-1" %>
+                <span><%= @featured_recipe.ingredients.length %> ingredients</span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="flex justify-between items-center mt-6">
+          <div class="flex gap-3 md:gap-4">
+            <div class="flex items-center">
+              <%= heroicon :heart, class: "w-4 h-4 md:w-5 md:h-5 text-neutral-300", aria: { label: "recipe-likes" } %>
+              <p class="ml-1 md:ml-2 text-neutral-300 text-xs md:text-sm"><%= rand(50..500) %></p>
+            </div>
+            <div class="flex items-center">
+              <%= heroicon :"chat-bubble-bottom-center-text", class: "w-4 h-4 md:w-5 md:h-5 text-neutral-300", aria: { label: "recipe-comments" } %>
+              <p class="ml-1 md:ml-2 text-neutral-300 text-xs md:text-sm"><%= rand(5..50) %></p>
+            </div>
+          </div>
+          <div class="flex">
+            <%= link_to recipe_path(@featured_recipe), class: "hover:text-orange-300 transition-colors" do %>
+              <%= heroicon :"arrow-right", class: "w-4 h-4 md:w-5 md:h-5 text-neutral-300", aria: { label: "view-recipe" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Recipes Grid -->
+    <div>
+      <h2 class="text-2xl font-semibold text-gray-900 mb-2">Recent Recipes</h2>
+          <div class="grid md:grid-cols-3 gap-6 mb-16">
+      <%= render partial: 'recipes/recipe', collection: @recipes, as: :recipe %>
+    </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="text-center py-16 bg-gray-50 rounded-xl">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Ready to explore more recipes?</h2>
+      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Discover hundreds of delicious recipes from around the world, each crafted with love and attention to detail.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to "Browse All Recipes", recipes_path, 
+            class: "bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition duration-300 text-lg" %>
+        <%= link_to "Add Your Recipe", new_recipe_path, 
+            class: "bg-gray-700 hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition duration-300 text-lg" %>
+      </div>
+    </div>
+
+  <% else %>
+    <!-- No Recipes State -->
+    <div class="text-center py-32">
+      <div class="mx-auto h-32 w-32 text-gray-400 mb-8">
+        <%= heroicon :sparkles, class: "w-full h-full" %>
+      </div>
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">No recipes available yet!</h2>
+      <p class="text-xl text-gray-600 mb-8">Be the first to share a delicious recipe with our community.</p>
+      <%= link_to "Add the First Recipe", new_recipe_path, 
+          class: "bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition duration-300 text-lg" %>
+    </div>
+  <% end %>
+</div>

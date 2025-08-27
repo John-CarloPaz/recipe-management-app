@@ -1,0 +1,158 @@
+<% content_for :title, @recipe.title %>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <!-- Flash Notice -->
+
+  <!-- Back Button -->
+  <div class="mb-6">
+    <%= link_to recipes_path, class: "inline-flex items-center text-orange-500 hover:text-orange-600 transition-colors" do %>
+      <%= heroicon :"arrow-left", class: "w-5 h-5 mr-2" %>
+      Back to Recipes
+    <% end %>
+  </div>
+
+  <!-- Recipe Header -->
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+    <!-- Recipe Image -->
+    <div class="relative">
+    <% if @recipe.image_url.present? %>
+      <%= image_tag @recipe.image_url, 
+          alt: @recipe.title, 
+          class: "w-full h-64 md:h-96 object-cover",
+          onerror: "this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pjwvc3ZnPg=='" %>
+    <% else %>
+      <div class="w-full h-64 md:h-96 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+        <div class="text-center text-white">
+          <%= heroicon :sparkles, class: "w-20 h-20 mx-auto mb-4" %>
+          <h3 class="text-3xl font-bold">Recipe Image</h3>
+          <p class="text-lg opacity-90">Coming Soon</p>
+        </div>
+      </div>
+    <% end %>
+
+      <!-- Category Badge -->
+      <% if @recipe.category.present? %>
+        <div class="absolute top-6 left-6">
+          <span class="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+            <%= @recipe.category.titleize %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Recipe Info -->
+    <div class="p-8">
+      <!-- Title -->
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6"><%= @recipe.title %></h1>
+
+      <!-- Recipe Meta -->
+      <div class="flex flex-wrap items-center gap-6 text-gray-600 mb-8">
+        <% if @recipe.cooking_time.present? %>
+          <div class="flex items-center bg-gray-50 px-4 py-2 rounded-lg">
+            <%= heroicon :clock, class: "w-5 h-5 mr-2 text-orange-500" %>
+            <span class="font-medium"><%= @recipe.cooking_time %> minutes</span>
+          </div>
+        <% end %>
+
+        <% if @recipe.servings.present? %>
+          <div class="flex items-center bg-gray-50 px-4 py-2 rounded-lg">
+            <%= heroicon :users, class: "w-5 h-5 mr-2 text-orange-500" %>
+            <span class="font-medium"><%= @recipe.servings.to_i %> servings</span>
+          </div>
+        <% end %>
+
+        <div class="flex items-center bg-gray-50 px-4 py-2 rounded-lg">
+          <%= heroicon :star, class: "w-5 h-5 mr-2 text-yellow-500" %>
+          <span class="font-medium">4.5 rating</span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <% if @recipe.description.present? %>
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <%= heroicon :"document-text", class: "w-6 h-6 mr-3 text-orange-500" %>
+            About This Recipe
+          </h2>
+          <p class="text-gray-700 leading-relaxed text-lg bg-gray-50 p-6 rounded-lg">
+            <%= @recipe.description %>
+          </p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Recipe Details Grid -->
+  <div class="grid lg:grid-cols-2 gap-8 mb-8">
+    <!-- Ingredients -->
+    <% if @recipe.ingredients.present? && @recipe.ingredients.any? %>
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <%= heroicon :"shopping-bag", class: "w-6 h-6 mr-3 text-orange-500" %>
+          Ingredients
+          <span class="ml-auto text-sm bg-orange-100 text-orange-600 px-3 py-1 rounded-full">
+            <%= @recipe.ingredients.length %> items
+          </span>
+        </h2>
+        <ul class="space-y-4">
+          <% @recipe.ingredients.each_with_index do |ingredient, index| %>
+            <li class="flex items-start group hover:bg-gray-50 p-3 rounded-lg transition-colors">
+              <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-4 flex-shrink-0 mt-1">
+                <%= index + 1 %>
+              </span>
+              <span class="text-gray-700 leading-relaxed"><%= ingredient.strip %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Instructions -->
+    <% if @recipe.instructions.present? && @recipe.instructions.any? %>
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <%= heroicon :"list-bullet", class: "w-6 h-6 mr-3 text-orange-500" %>
+          Instructions
+          <span class="ml-auto text-sm bg-orange-100 text-orange-600 px-3 py-1 rounded-full">
+            <%= @recipe.instructions.length %> steps
+          </span>
+        </h2>
+        <ol class="space-y-6">
+          <% @recipe.instructions.each_with_index do |instruction, index| %>
+            <li class="flex items-start group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+              <span class="bg-orange-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 flex-shrink-0 mt-1">
+                <%= index + 1 %>
+              </span>
+              <span class="text-gray-700 leading-relaxed"><%= instruction.strip %></span>
+            </li>
+          <% end %>
+        </ol>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="bg-white rounded-xl shadow-lg p-8">
+    <div class="flex flex-wrap justify-center gap-4">
+      <% if current_user == @recipe.user %>
+        <%= link_to edit_recipe_path(@recipe), class: "flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg" do %>
+          <%= heroicon :pencil, class: "w-5 h-5 mr-2" %>
+          Edit Recipe
+        <% end %>
+      <% else %>
+        <div class="text-center py-16 rounded-xl">
+          <h2 class="text-4xl font-bold text-gray-900 mb-4">Ready to explore more recipes?</h2>
+          <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Discover hundreds of delicious recipes from around the world, each crafted with love and attention to detail.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <%= link_to "Browse All Recipes", recipes_path, 
+                class: "bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition duration-300 text-lg" %>
+            <%= link_to "Add Your Recipe", new_recipe_path, 
+                class: "bg-gray-700 hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-lg shadow-lg transition duration-300 text-lg" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

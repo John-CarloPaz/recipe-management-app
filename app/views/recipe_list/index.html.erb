@@ -1,0 +1,13 @@
+<div>
+  <% if current_user %>
+  <div>
+      <div>
+          <h2 class="text-2xl font-semibold text-gray-900 mb-2">My Recipes</h2>
+              <div class="grid md:grid-cols-3 gap-6 mb-16">
+          <%= render partial: 'recipes/recipe', collection: @user_recipes, as: :recipe %>
+      </div>
+  </div>
+  <% else %>
+    <p>Please log in to see your recipes.</p>
+  <% end %>
+</div>

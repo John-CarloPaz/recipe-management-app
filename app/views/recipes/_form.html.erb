@@ -1,0 +1,244 @@
+<%= form_with(model: recipe, local: true, class: "max-w-7xl mx-auto bg-white p-8 rounded-xl shadow-lg") do |form| %>
+  <div class="grid md:grid-cols-2 gap-6">
+    <!-- Left Column -->
+    <div class="space-y-6">
+      <!-- Title -->
+      <div>
+        <%= form.label :title, class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :title, 
+            placeholder: "e.g., Classic Caesar Salad",
+            class: ["block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors", 
+                   recipe.errors[:title].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+        <% if recipe.errors[:title].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= recipe.errors[:title].first %></p>
+        <% end %>
+      </div>
+
+      <!-- Category -->
+      <div>
+        <%= form.label :category, class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.select :category, 
+            options_for_select([
+              ['Select a category', ''],
+              ['Appetizer', 'appetizer'],
+              ['Main Course', 'main_course'],
+              ['Dessert', 'dessert'],
+              ['Salad', 'salad'],
+              ['Soup', 'soup'],
+              ['Breakfast', 'breakfast'],
+              ['Snack', 'snack'],
+              ['Beverage', 'beverage']
+            ], recipe.category),
+            {},
+            class: ["block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors", 
+                   recipe.errors[:category].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+        <% if recipe.errors[:category].any? %>
+          <p class="mt-1 text-sm text-red-600 capitalize"><%= recipe.errors[:category].first %></p>
+        <% end %>
+      </div>
+
+      <!-- Cooking Time and Servings -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <%= form.label :cooking_time, "Cooking Time (minutes)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.number_field :cooking_time, 
+              placeholder: "30",
+              min: 1,
+              class: ["block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors", 
+                     recipe.errors[:cooking_time].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+          <% if recipe.errors[:cooking_time].any? %>
+            <p class="mt-1 text-sm text-red-600"><%= recipe.errors[:cooking_time].first %></p>
+          <% end %>
+        </div>
+
+        <div>
+          <%= form.label :servings, class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.number_field :servings, 
+              placeholder: "4",
+              min: 1,
+              step: 0.5,
+              class: ["block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors", 
+                     recipe.errors[:servings].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+          <% if recipe.errors[:servings].any? %>
+            <p class="mt-1 text-sm text-red-600"><%= recipe.errors[:servings].first %></p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Image URL -->
+      <div>
+        <%= form.label :image_url, "Image URL (optional)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.url_field :image_url, 
+            placeholder: "https://example.com/recipe-image.jpg",
+            class: ["block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors", 
+                   recipe.errors[:image_url].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+        <% if recipe.errors[:image_url].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= recipe.errors[:image_url].first %></p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="space-y-6">
+      <!-- Description -->
+      <div>
+        <%= form.label :description, class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_area :description, 
+            rows: 4,
+            placeholder: "Describe your recipe, its origins, and what makes it special...",
+            class: ["block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors resize-vertical", 
+                   recipe.errors[:description].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+        <% if recipe.errors[:description].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= recipe.errors[:description].first %></p>
+        <% end %>
+      </div>
+
+      <!-- Ingredients -->
+      <div>
+        <%= form.label :ingredients, class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <div id="ingredients-container">
+          <% if recipe.ingredients.present? %>
+            <% recipe.ingredients.each_with_index do |ingredient, index| %>
+              <div class="ingredient-field flex items-center mb-2">
+                <%= text_field_tag "recipe[ingredients][]", ingredient, 
+                    placeholder: "e.g., 2 cups romaine lettuce, chopped",
+                    class: ["flex-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors mr-2", 
+                           recipe.errors[:ingredients].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+                <button type="button" class="remove-ingredient bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-colors">
+                  <%= heroicon :trash, class: "w-4 h-4" %>
+                </button>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="ingredient-field flex items-center mb-2">
+              <%= text_field_tag "recipe[ingredients][]", "", 
+                  placeholder: "e.g., 2 cups romaine lettuce, chopped",
+                  class: ["flex-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors mr-2", 
+                         recipe.errors[:ingredients].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+              <button type="button" class="remove-ingredient bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-colors">
+                <%= heroicon :trash, class: "w-4 h-4" %>
+              </button>
+            </div>
+          <% end %>
+        </div>
+        <button type="button" id="add-ingredient" class="mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors flex items-center">
+          <%= heroicon :plus, class: "w-4 h-4 mr-2" %>
+          Add Ingredient
+        </button>
+        <% if recipe.errors[:ingredients].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= recipe.errors[:ingredients].first %></p>
+        <% end %>
+      </div>
+
+      <!-- Instructions -->
+      <div>
+        <%= form.label :instructions, class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <div id="instructions-container">
+          <% if recipe.instructions.present? %>
+            <% recipe.instructions.each_with_index do |instruction, index| %>
+              <div class="instruction-field flex items-start mb-2">
+                <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-2 mt-2 flex-shrink-0">
+                  <%= index + 1 %>
+                </span>
+                <%= text_area_tag "recipe[instructions][]", instruction, 
+                    rows: 2,
+                    placeholder: "Describe this step in detail...",
+                    class: ["flex-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors resize-vertical mr-2", 
+                           recipe.errors[:instructions].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+                <button type="button" class="remove-instruction bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-colors mt-2">
+                  <%= heroicon :trash, class: "w-4 h-4" %>
+                </button>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="instruction-field flex items-start mb-2">
+              <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-2 mt-2 flex-shrink-0">1</span>
+              <%= text_area_tag "recipe[instructions][]", "", 
+                  rows: 2,
+                  placeholder: "Describe this step in detail...",
+                  class: ["flex-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 transition-colors resize-vertical mr-2", 
+                         recipe.errors[:instructions].any? ? "border-red-300 focus:ring-red-500 focus:border-red-500" : "border-gray-300 focus:ring-orange-500 focus:border-orange-500"] %>
+              <button type="button" class="remove-instruction bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-colors mt-2">
+                <%= heroicon :trash, class: "w-4 h-4" %>
+              </button>
+            </div>
+          <% end %>
+        </div>
+        <button type="button" id="add-instruction" class="mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors flex items-center">
+          <%= heroicon :plus, class: "w-4 h-4 mr-2" %>
+          Add Step
+        </button>
+        <% if recipe.errors[:instructions].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= recipe.errors[:instructions].first %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit Buttons -->
+  <div class="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
+    <%= link_to "Cancel", recipe.persisted? ? root_path : root_path, 
+        class: "px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors" %>
+    <%= form.submit recipe.persisted? ? "Update Recipe" : "Create Recipe", 
+        class: "px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-md font-medium transition-colors flex items-center" %>
+  </div>
+<% end %>
+
+<!-- JavaScript for dynamic fields -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add ingredient functionality
+  document.getElementById('add-ingredient').addEventListener('click', function() {
+    const container = document.getElementById('ingredients-container');
+    const newField = document.createElement('div');
+    newField.className = 'ingredient-field flex items-center mb-2';
+    newField.innerHTML = `
+      <input type="text" name="recipe[ingredients][]" placeholder="e.g., 2 cups romaine lettuce, chopped" class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors mr-2">
+      <button type="button" class="remove-ingredient bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-colors">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+      </button>
+    `;
+    container.appendChild(newField);
+  });
+
+  // Add instruction functionality
+  document.getElementById('add-instruction').addEventListener('click', function() {
+    const container = document.getElementById('instructions-container');
+    const stepNumber = container.children.length + 1;
+    const newField = document.createElement('div');
+    newField.className = 'instruction-field flex items-start mb-2';
+    newField.innerHTML = `
+      <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-2 mt-2 flex-shrink-0">${stepNumber}</span>
+      <textarea name="recipe[instructions][]" rows="2" placeholder="Describe this step in detail..." class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-vertical mr-2"></textarea>
+      <button type="button" class="remove-instruction bg-red-500 hover:bg-red-600 text-white p-2 rounded-md transition-colors mt-2">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+      </button>
+    `;
+    container.appendChild(newField);
+  });
+
+  // Remove field functionality
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.remove-ingredient')) {
+      const field = e.target.closest('.ingredient-field');
+      const container = document.getElementById('ingredients-container');
+      if (container.children.length > 1) {
+        field.remove();
+      }
+    }
+    
+    if (e.target.closest('.remove-instruction')) {
+      const field = e.target.closest('.instruction-field');
+      const container = document.getElementById('instructions-container');
+      if (container.children.length > 1) {
+        field.remove();
+        // Update step numbers
+        Array.from(container.children).forEach((child, index) => {
+          const stepNumber = child.querySelector('span');
+          if (stepNumber) stepNumber.textContent = index + 1;
+        });
+      }
+    }
+  });
+});
+</script>

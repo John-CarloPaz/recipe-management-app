@@ -1,0 +1,37 @@
+<div id="<%= dom_id recipe %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div class="grid grid-cols-1 bg-white shadow-md rounded-xl overflow-hidden h-full">
+  
+    <div class="md:col-span-1">
+      <%= image_tag recipe.image_url || "default-recipe.jpg",
+          alt: recipe.title,
+          class: "object-cover w-full h-64 md:h-96" %>
+    </div>
+
+    <!-- Content section - takes 2 columns -->
+    <div class="md:col-span-2 p-6 flex flex-col justify-between">
+      <div>
+        <h2 class="text-2xl font-bold mb-4 capitalize"><%= recipe.title %></h2>
+        <p class="mb-4 text-gray-700 line-clamp-2"><%= recipe.description %></p>
+        <p class="mb-4 text-sm text-gray-500">By <%= recipe.user.name %> | <%= time_ago_in_words(recipe.created_at) %> ago</p>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <div class="flex gap-4">
+          <!-- Like Button - using partial -->
+          <%= render 'shared/like_button', recipe: recipe %>
+
+          <!-- Comments -->
+          <div class="flex items-center">
+            <%= heroicon "chat-bubble-bottom-center-text", class: "w-5 h-5 text-neutral-500", aria: { label: "recipe-comments" } %>
+            <p class="ml-2 text-neutral-500"><%= recipe.comments.count %> <%= recipe.comments.count == 1 ? 'Comment' : 'Comments' %></p>
+          </div>
+        </div>
+        <div class="flex">
+          <%= link_to recipe_path(recipe), class: "hover:text-gray-700 transition-colors" do %>
+            <%= heroicon "arrow-right", class: "w-5 h-5 text-neutral-500", aria: { label: "view-recipe-details" } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

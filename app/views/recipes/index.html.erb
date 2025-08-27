@@ -1,0 +1,9 @@
+<% content_for :title, "Recipes" %>
+
+<div>
+    <div>
+        <h2 class="text-2xl font-semibold text-gray-900 mb-2">Recent Recipes</h2>
+            <div class="grid md:grid-cols-3 gap-6 mb-16">
+        <%= render partial: 'recipes/recipe', collection: @recipes, as: :recipe %>
+    </div>
+</div>
