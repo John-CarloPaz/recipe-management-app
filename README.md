@@ -20,7 +20,7 @@ Includes authentication to manage user accounts securely.
 - **Backend**: Ruby on Rails
 - **Database**: PostgreSQL
 - **Frontend**: Embedded Ruby (ERB) + TailwindCSS
-- **Authentication**: Devise (or custom auth if implemented)
+- **Authentication**: Custom Auth
 - **Version Control**: Git & GitHub
 
 ---
