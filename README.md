@@ -41,8 +41,6 @@ Make sure you have the following installed:
    git clone git@github.com:your-username/recipe-management-app.git
    cd recipe-management-app
 
-   Install dependencies:
-
 2. Install Dependencies
    bundle install
 
@@ -53,14 +51,27 @@ rails db:create db:migrate db:seed
 
 
 4. Start the server:
+   ```bash
+   bin/dev
 
-bin/dev
+###🧪 Tests (Optional)
 
+Currently no tests are implemented, but setup is compatible with RSpec/Minitest.
 
-or
+###📌 Future Improvements
 
-rails server
+Image uploads for recipes (Active Storage)
 
+Search & filter by ingredients
 
-Visit in your browser:
-http://localhost:3000
+User profile pages
+
+AI Generated Recipes 
+
+Cooking Controls and Timer
+
+###👨‍💻 Author
+
+John Carlo Paz
+Aspiring Software Engineer | BSIT (Mobile Development) Student @ Systems Plus College Foundation
+
