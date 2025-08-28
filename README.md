@@ -57,7 +57,7 @@ Make sure you have the following installed:
 
 ---
 
-##🧪 Tests (Optional)
+## 🧪 Tests (Optional)
 
 Currently no tests are implemented, but setup is compatible with RSpec/Minitest.
 
