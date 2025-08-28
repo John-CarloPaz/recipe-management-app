@@ -40,3 +40,27 @@ Make sure you have the following installed:
    ```bash
    git clone git@github.com:your-username/recipe-management-app.git
    cd recipe-management-app
+
+   Install dependencies:
+
+2. Install Dependencies
+   bundle install
+
+
+3. Set up the database:
+
+rails db:create db:migrate db:seed
+
+
+4. Start the server:
+
+bin/dev
+
+
+or
+
+rails server
+
+
+Visit in your browser:
+http://localhost:3000
