@@ -1,24 +1,42 @@
-# README
+# 🍳 Recipe Management App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple Ruby on Rails application where users can share their favorite recipes, like other users' posts, and leave comments.  
+Includes authentication to manage user accounts securely.
 
-Things you may want to cover:
+---
 
-* Ruby version
+## ✨ Features
 
-* System dependencies
+- 🔐 **User Authentication** (sign up, log in, log out)
+- 📝 **Post Recipes** with title, ingredients, and instructions
+- 👍 **Like Recipes** to show appreciation
+- 💬 **Comment on Recipes** to share feedback
+- 📱 Responsive design (built with Rails & TailwindCSS)
 
-* Configuration
+---
 
-* Database creation
+## 🛠 Tech Stack
 
-* Database initialization
+- **Backend**: Ruby on Rails
+- **Database**: PostgreSQL
+- **Frontend**: Embedded Ruby (ERB) + TailwindCSS
+- **Authentication**: Devise (or custom auth if implemented)
+- **Version Control**: Git & GitHub
 
-* How to run the test suite
+---
 
-* Services (job queues, cache servers, search engines, etc.)
+## 🚀 Getting Started
 
-* Deployment instructions
+### Prerequisites
+Make sure you have the following installed:
+- Ruby (>= 3.0)
+- Rails (>= 7.0)
+- PostgreSQL
+- Git
 
-* ...
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone git@github.com:your-username/recipe-management-app.git
+   cd recipe-management-app
