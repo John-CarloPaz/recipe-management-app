@@ -42,15 +42,16 @@ Make sure you have the following installed:
    cd recipe-management-app
 
 2. Install Dependencies
+   ```bash
    bundle install
 
 
-3. Set up the database:
+4. Set up the database:
+   ```bash
+   rails db:create db:migrate db:seed
 
-rails db:create db:migrate db:seed
 
-
-4. Start the server:
+5. Start the server:
    ```bash
    bin/dev
 
