@@ -54,11 +54,15 @@ rails db:create db:migrate db:seed
    ```bash
    bin/dev
 
-###🧪 Tests (Optional)
+---
+
+##🧪 Tests (Optional)
 
 Currently no tests are implemented, but setup is compatible with RSpec/Minitest.
 
-###📌 Future Improvements
+---
+
+##📌 Future Improvements
 
 Image uploads for recipes (Active Storage)
 
@@ -70,7 +74,9 @@ AI Generated Recipes
 
 Cooking Controls and Timer
 
-###👨‍💻 Author
+---
+
+##👨‍💻 Author
 
 John Carlo Paz
 Aspiring Software Engineer | BSIT (Mobile Development) Student @ Systems Plus College Foundation
